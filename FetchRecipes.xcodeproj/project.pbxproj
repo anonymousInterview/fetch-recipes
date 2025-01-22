@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		55CE39EE2D415651003A0FFA /* Networking in Resources */ = {isa = PBXBuildFile; fileRef = 55CE39ED2D415651003A0FFA /* Networking */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		55CE39BE2D414FFF003A0FFA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -24,9 +28,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		552991112D4156B000DCC19F /* FetchRecipes.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FetchRecipes.xctestplan; sourceTree = "<group>"; };
+		552991122D41574300DCC19F /* Meals */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Meals; sourceTree = "<group>"; };
 		55CE39AD2D414FFE003A0FFA /* FetchRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55CE39BD2D414FFF003A0FFA /* FetchRecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchRecipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		55CE39C72D414FFF003A0FFA /* FetchRecipesUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchRecipesUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		55CE39ED2D415651003A0FFA /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -70,6 +77,9 @@
 		55CE39A42D414FFE003A0FFA = {
 			isa = PBXGroup;
 			children = (
+				552991112D4156B000DCC19F /* FetchRecipes.xctestplan */,
+				552991122D41574300DCC19F /* Meals */,
+				55CE39ED2D415651003A0FFA /* Networking */,
 				55CE39AF2D414FFE003A0FFA /* FetchRecipes */,
 				55CE39C02D414FFF003A0FFA /* FetchRecipesTests */,
 				55CE39AE2D414FFE003A0FFA /* Products */,
@@ -203,6 +213,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				55CE39EE2D415651003A0FFA /* Networking in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
