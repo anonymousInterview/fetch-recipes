@@ -40,11 +40,6 @@
 			path = FetchRecipesTests;
 			sourceTree = "<group>";
 		};
-		55CE39CA2D414FFF003A0FFA /* FetchRecipesUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FetchRecipesUITests;
-			sourceTree = "<group>";
-		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,7 +72,6 @@
 			children = (
 				55CE39AF2D414FFE003A0FFA /* FetchRecipes */,
 				55CE39C02D414FFF003A0FFA /* FetchRecipesTests */,
-				55CE39CA2D414FFF003A0FFA /* FetchRecipesUITests */,
 				55CE39AE2D414FFE003A0FFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -152,9 +146,6 @@
 			);
 			dependencies = (
 				55CE39C92D414FFF003A0FFA /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				55CE39CA2D414FFF003A0FFA /* FetchRecipesUITests */,
 			);
 			name = FetchRecipesUITests;
 			packageProductDependencies = (
