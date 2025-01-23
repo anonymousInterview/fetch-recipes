@@ -9,3 +9,4 @@ TODO
 - swift 6 enable for modules
 - dark mode
 - dynamic type
+- run formatter at the end

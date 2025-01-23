@@ -7,8 +7,8 @@
 
 import Foundation
 
-enum NetworkingError: Error {
-    case unableToConstructURL
+public enum NetworkingError: Error {
+    case invalidURL
     case unknown
 }
 
