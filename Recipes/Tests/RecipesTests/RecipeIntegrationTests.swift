@@ -3,8 +3,7 @@ import Foundation
 @testable import Recipes
 @testable import Networking
 
-// TODO: Mark as E2E tests
-@Suite struct ReceipeE2ETests {
+@Suite struct ReceipeIntegrationTests {
     @Test func validResponse() async throws {
         let client = DefaultHTTPClient()
         let responseData = try await client.get(url: URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json")!)

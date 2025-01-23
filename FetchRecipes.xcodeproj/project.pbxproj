@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5504A52D2D41F9A90041ECFB /* Recipes in Frameworks */ = {isa = PBXBuildFile; productRef = 5504A52C2D41F9A90041ECFB /* Recipes */; };
+		5504A52F2D41F9F80041ECFB /* Networking in Frameworks */ = {isa = PBXBuildFile; productRef = 5504A52E2D41F9F80041ECFB /* Networking */; };
 		552991142D41B84E00DCC19F /* README.MD in Resources */ = {isa = PBXBuildFile; fileRef = 552991132D41B84E00DCC19F /* README.MD */; };
 		55CE39EE2D415651003A0FFA /* Networking in Resources */ = {isa = PBXBuildFile; fileRef = 55CE39ED2D415651003A0FFA /* Networking */; };
 /* End PBXBuildFile section */
@@ -56,6 +58,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5504A52F2D41F9F80041ECFB /* Networking in Frameworks */,
+				5504A52D2D41F9A90041ECFB /* Recipes in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,6 +80,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5504A52B2D41F9A90041ECFB /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		55CE39A42D414FFE003A0FFA = {
 			isa = PBXGroup;
 			children = (
@@ -85,6 +96,7 @@
 				55CE39ED2D415651003A0FFA /* Networking */,
 				55CE39AF2D414FFE003A0FFA /* FetchRecipes */,
 				55CE39C02D414FFF003A0FFA /* FetchRecipesTests */,
+				5504A52B2D41F9A90041ECFB /* Frameworks */,
 				55CE39AE2D414FFE003A0FFA /* Products */,
 			);
 			sourceTree = "<group>";
@@ -119,6 +131,8 @@
 			);
 			name = FetchRecipes;
 			packageProductDependencies = (
+				5504A52C2D41F9A90041ECFB /* Recipes */,
+				5504A52E2D41F9F80041ECFB /* Networking */,
 			);
 			productName = FetchRecipes;
 			productReference = 55CE39AD2D414FFE003A0FFA /* FetchRecipes.app */;
@@ -560,6 +574,17 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		5504A52C2D41F9A90041ECFB /* Recipes */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Recipes;
+		};
+		5504A52E2D41F9F80041ECFB /* Networking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Networking;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 55CE39A52D414FFE003A0FFA /* Project object */;
 }

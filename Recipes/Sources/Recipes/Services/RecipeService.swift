@@ -2,7 +2,6 @@
 //  RecipeService.swift
 //  Recipes
 //
-//  Created by Ulises Giacoman on 1/22/25.
 //
 
 import Networking

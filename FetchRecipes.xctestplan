@@ -17,6 +17,13 @@
   },
   "testTargets" : [
     {
+      "target" : {
+        "containerPath" : "container:Networking",
+        "identifier" : "NetworkingTests",
+        "name" : "NetworkingTests"
+      }
+    },
+    {
       "parallelizable" : true,
       "target" : {
         "containerPath" : "container:FetchRecipes.xcodeproj",
@@ -26,16 +33,9 @@
     },
     {
       "target" : {
-        "containerPath" : "container:",
+        "containerPath" : "container:Recipes",
         "identifier" : "RecipesTests",
         "name" : "RecipesTests"
-      }
-    },
-    {
-      "target" : {
-        "containerPath" : "container:Networking",
-        "identifier" : "NetworkingTests",
-        "name" : "NetworkingTests"
       }
     }
   ],

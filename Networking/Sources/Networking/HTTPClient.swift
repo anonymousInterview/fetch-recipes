@@ -12,11 +12,12 @@ public enum NetworkingError: Error {
     case unknown
 }
 
-public protocol HTTPClient {
+public protocol HTTPClient: Sendable {
     func get(url: URL) async throws -> Data
 }
 
-public class DefaultHTTPClient: HTTPClient {
+// TODO: Is there a better place for this?
+public final class DefaultHTTPClient: HTTPClient {
     public func get(url: URL) async throws -> Data {
         do {
             var urlRequest = URLRequest(url: url)
@@ -35,4 +36,6 @@ public class DefaultHTTPClient: HTTPClient {
             throw error
         }
     }
+    
+    public init() {}
 }

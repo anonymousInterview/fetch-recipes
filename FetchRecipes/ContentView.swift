@@ -5,16 +5,13 @@
 //
 
 import SwiftUI
+import Recipes
+import Networking
 
 struct ContentView: View {
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-        }
-        .padding()
+        // TODO: Think more about navigation, Coordinator, ownership
+        RecipesView(viewModel: RecipesViewModel(httpClient: DefaultHTTPClient()))
     }
 }
 

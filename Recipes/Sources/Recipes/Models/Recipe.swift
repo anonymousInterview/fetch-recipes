@@ -6,7 +6,7 @@
 
 import Foundation
 
-public struct Recipe: Decodable, Identifiable {
+public struct Recipe: Decodable, Identifiable, Sendable {
     let uuid: String
     let name: String
     let cuisine: Cuisine
@@ -20,7 +20,7 @@ public struct Recipe: Decodable, Identifiable {
         uuid
     }
     
-    public enum Cuisine: Decodable, Equatable {
+    public enum Cuisine: Decodable, Equatable, Sendable {
         case american
         case british
         case canadian
