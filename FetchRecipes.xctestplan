@@ -26,9 +26,9 @@
     },
     {
       "target" : {
-        "containerPath" : "container:Meals",
-        "identifier" : "MealsTests",
-        "name" : "MealsTests"
+        "containerPath" : "container:",
+        "identifier" : "RecipesTests",
+        "name" : "RecipesTests"
       }
     },
     {
@@ -36,14 +36,6 @@
         "containerPath" : "container:Networking",
         "identifier" : "NetworkingTests",
         "name" : "NetworkingTests"
-      }
-    },
-    {
-      "parallelizable" : true,
-      "target" : {
-        "containerPath" : "container:FetchRecipes.xcodeproj",
-        "identifier" : "55CE39C62D414FFF003A0FFA",
-        "name" : "FetchRecipesUITests"
       }
     }
   ],

@@ -9,19 +9,18 @@ import Foundation
 public struct Recipe: Decodable, Identifiable {
     let uuid: String
     let name: String
-    let cousine: Cousine
+    let cuisine: Cuisine
     let photoURLLarge: URL?
     let photoURLSmall: URL?
     let sourceURL: URL?
     let youtubeURL: URL?
-    
     
     /// A computed property that `Recipe` to conform to Identifiable
     public var id: String {
         uuid
     }
     
-    public enum Cousine: Decodable, Equatable {
+    public enum Cuisine: Decodable, Equatable {
         case american
         case british
         case canadian
@@ -42,7 +41,8 @@ public struct Recipe: Decodable, Identifiable {
             case "malaysian": self = .malaysian
             case "tunisian": self = .tunisian
             default:
-                // assertionFailure("The client cannot decode the following value for Cousine: \(value).")
+                // TODO: Figure out how to send an alert
+                // assertionFailure("The client cannot decode the following value for cuisine: \(value).")
                 self = .other(value)
             }
         }
