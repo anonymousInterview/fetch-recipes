@@ -4,16 +4,18 @@
 //
 //
 
+import OSLog
 import Foundation
+import Networking
 
 public struct Recipe: Decodable, Identifiable, Sendable {
     let uuid: String
     let name: String
     let cuisine: Cuisine
-    let photoURLLarge: URL?
-    let photoURLSmall: URL?
-    let sourceURL: URL?
-    let youtubeURL: URL?
+    let photoUrlLarge: URL?
+    let photoUrlSmall: URL?
+    let sourceUrl: URL?
+    let youtubeUrl: URL?
     
     /// A computed property that `Recipe` to conform to Identifiable
     public var id: String {
@@ -41,8 +43,7 @@ public struct Recipe: Decodable, Identifiable, Sendable {
             case "malaysian": self = .malaysian
             case "tunisian": self = .tunisian
             default:
-                // TODO: Figure out how to send an alert
-                // assertionFailure("The client cannot decode the following value for cuisine: \(value).")
+                Logger.tracking.error("The client cannot decode the following value for cuisine: \(value).")
                 self = .other(value)
             }
         }

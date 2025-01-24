@@ -18,6 +18,7 @@ struct RecipeService {
         }
         let responseData = try await client.get(url: url)
         let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
         let recipeResponse = try decoder.decode(RecipeService.RecipeResponse.self, from: responseData)
         return recipeResponse.recipes
     }
