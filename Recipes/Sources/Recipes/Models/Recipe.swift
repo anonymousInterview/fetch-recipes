@@ -22,31 +22,39 @@ public struct Recipe: Decodable, Identifiable, Sendable {
         uuid
     }
     
-    public enum Cuisine: Decodable, Equatable, Sendable {
+    public enum Cuisine: String, Decodable, Equatable, Sendable {
         case american
         case british
         case canadian
+        case croatian
+        case french
+        case greek
+        case italian
         case malaysian
+        case polish
+        case portuguese
         case tunisian
-        case other(String)
+        case russian
+        case other
         
         /// This custom decoder allows us to defend the client from backend changes that it
         /// cannot handle.
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let value = try container.decode(String.self).lowercased()
-            
-            switch value {
-            case "american": self = .american
-            case "british": self = .british
-            case "canadian": self = .canadian
-            case "malaysian": self = .malaysian
-            case "tunisian": self = .tunisian
-            default:
-                Logger.tracking.error("The client cannot decode the following value for cuisine: \(value).")
-                self = .other(value)
+            if let cuisine = Cuisine(rawValue: value) {
+                self = cuisine
+            } else {
+                Logger().error("The client cannot decode the following value for cuisine: \(value).")
+                self = .other
             }
         }
         
+    }
+}
+
+extension Recipe {
+    var displayCuisine: String {
+        cuisine.rawValue.capitalized
     }
 }
