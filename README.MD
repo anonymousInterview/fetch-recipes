@@ -9,6 +9,7 @@
 | Default | Empty State | Error State |
 |-|-|-|
 |![Default](/screenshots/default.png "Default")|![Empty](/screenshots/empty.png "Empty")|![Error](/screenshots/error.png "Error")|
+
 | Pull to Refresh | Dynamic Type | Code Coverage |
 |-|-|-|
 |![Refresh](/screenshots/refresh.png "Refresh")|![Dynamic Type](/screenshots/dynamic_type.png "Dynamic Type")|![Code Coverage](/screenshots/coverage.png "Code Coverage")|
