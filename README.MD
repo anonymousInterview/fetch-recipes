@@ -6,9 +6,12 @@
 - Functional error and empty states
 - Accessibility as a first class citizen: voice over, dynamic type, appropriate tap targets, and dark mode
  
-| Default | Pull to Refresh | Error State | Empty State | Dynamic Type
-|-|-|-|-|-|
-|![Default](/screenshots/default.png "Default")|![Refresh](/screenshots/refresh.png "Refresh")|![Error](/screenshots/error.png "Error")|![Empty](/screenshots/empty.png "Empty")| ![Dynamic Type](/screenshots/dynamic_type.png "Dynamic Type")|
+| Default | Empty State | Error State |
+|-|-|-|
+|![Default](/screenshots/default.png "Default")|![Empty](/screenshots/empty.png "Empty")|![Error](/screenshots/error.png "Error")|
+| Pull to Refresh | Dynamic Type | Code Coverage |
+|-|-|-|
+|![Refresh](/screenshots/refresh.png "Refresh")|![Dynamic Type](/screenshots/dynamic_type.png "Dynamic Type")|![Code Coverage](/screenshots/coverage.png "Code Coverage")|
 
 ### Focus Areas: What specific areas of the project did you prioritize? Why did you choose to focus on these areas?
  
