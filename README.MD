@@ -1,8 +1,8 @@
 ### Summary: Include screen shots or a video of your app highlighting its features
  
-| Dynamic Type | Pull to Refresh | Error State | Empty State |
-|-|-|-|-|
-|![Dynamic Type](/screenshots/dynamic_type.png "Dynamic Type")|![Refresh](/screenshots/refresh.png "Refresh")|![Error](/screenshots/error.png "Error")|![Empty](/screenshots/empty.png "Empty")|
+| Default | Pull to Refresh | Error State | Empty State | Dynamic Type
+|-|-|-|-|-|
+|![Default](/screenshots/default.png "Default")|![Refresh](/screenshots/refresh.png "Refresh")|![Error](/screenshots/error.png "Error")|![Empty](/screenshots/empty.png "Empty")| ![Dynamic Type](/screenshots/dynamic_type.png "Dynamic Type")|
 
 ### Focus Areas: What specific areas of the project did you prioritize? Why did you choose to focus on these areas?
  
