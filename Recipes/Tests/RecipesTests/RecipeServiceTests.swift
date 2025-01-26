@@ -4,10 +4,10 @@
 //
 //
 
-import Testing
 import Foundation
-@testable import Recipes
 @testable import Networking
+@testable import Recipes
+import Testing
 
 struct RecipeServiceTests {
     static let validResponse = """
@@ -25,17 +25,17 @@ struct RecipeServiceTests {
         ]
     }
     """
-    
+
     struct MockRecipeHTTPClient: HTTPClient {
-        func get(url: URL) async throws -> Data {
+        func get(url _: URL) async throws -> Data {
             return validResponse.data(using: .utf8)!
         }
-        
-        func data(from: URL) async throws -> (Data, URLResponse) {
+
+        func data(from _: URL) async throws -> (Data, URLResponse) {
             return (Data(), URLResponse())
         }
     }
-    
+
     @Test func canDecodeSuccessfully() async throws {
         let recipes = try await RecipeService.fetchRecipes(client: MockRecipeHTTPClient())
         #expect(recipes.count == 1)

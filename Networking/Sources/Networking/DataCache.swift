@@ -5,8 +5,8 @@
 //
 
 import Foundation
-import SwiftUI
 import OSLog
+import SwiftUI
 
 public protocol DataCache: Actor {
     func data(for key: String) -> Data?
@@ -17,24 +17,24 @@ public protocol DataCache: Actor {
 public actor DefaultDataCache: DataCache {
     /// How many items are currently in our cache
     private var count: Int = 0
-    
+
     /// The capacity of our cache
     private let capacity: Int
-    
+
     /// Pointers to help us insert new items and purge old items
     private var head: Node?
     private var tail: Node?
-    
+
     /// Our key:value store of nodes where key is
     private var cache: [String: Node] = [:]
-    
+
     private let diskCacheFileURL: URL?
     static let diskCacheFilePath = "dataCache"
-    
-    lazy var writeToDiskDebouncer: Debouncer = Debouncer(duration: .seconds(2)) {
+
+    lazy var writeToDiskDebouncer: Debouncer = .init(duration: .seconds(2)) {
         self.saveDiskCacheToFile()
     }
-    
+
     public init(capacity: Int = 200) {
         self.capacity = capacity
         // Determine file path for the disk cache
@@ -44,12 +44,12 @@ public actor DefaultDataCache: DataCache {
             // If we can't find a path to write to, we won't write to disk
             diskCacheFileURL = nil
         }
-        
+
         Task {
             await loadCacheFromDisk()
         }
     }
-    
+
     /// Retrieve a value
     /// - Parameter key: The identifier for the data
     /// - Returns: Data if it exists in the cache
@@ -62,7 +62,7 @@ public actor DefaultDataCache: DataCache {
             return nil
         }
     }
-    
+
     /// Cache a value
     /// - Parameters:
     ///   - data: The data to be cached
@@ -80,20 +80,20 @@ public actor DefaultDataCache: DataCache {
             head = node
             cache[key] = node
             count += 1
-            
+
             // If cache is empty and this is the first insertion,
             // give tail a value
             if tail == nil {
                 tail = head
             }
         }
-        
+
         // If we have hit capacity, purge last node
         if count > capacity {
             if let tail {
                 cache.removeValue(forKey: tail.key)
             }
-            
+
             tail = tail?.previous
             tail?.next = nil
             count -= 1
@@ -101,7 +101,7 @@ public actor DefaultDataCache: DataCache {
         // Update disk with new model
         writeToDiskDebouncer.emit()
     }
-    
+
     /// Updates the pointers of an existing node based off its current position
     func moveToHead(_ node: Node) {
         // If the current node is already at the head: noop
@@ -115,14 +115,14 @@ public actor DefaultDataCache: DataCache {
             head?.previous = node
             head = node
         }
-        
+
         // If the current node is the tail, make the previous node tail
         if node === tail {
             tail = tail?.previous
             tail?.next = nil
         }
     }
-    
+
     /// Takes our in-memory cache and saves to disk to persist across app launches
     func saveDiskCacheToFile() {
         if let diskCacheFileURL {
@@ -138,7 +138,7 @@ public actor DefaultDataCache: DataCache {
             }
         }
     }
-    
+
     /// Retrieve cache from disk and load values into memory
     func loadCacheFromDisk() {
         guard let diskCacheFileURL else { return }
@@ -154,7 +154,7 @@ public actor DefaultDataCache: DataCache {
             Logger.networking.debug("Failed to load cache from disk: \(error.localizedDescription)")
         }
     }
-    
+
     /// Iterates through our doubly linked list to return the order of our keys
     /// - Returns: A string array of ordered keys
     func getOrderedKeys() -> [String] {
@@ -166,14 +166,14 @@ public actor DefaultDataCache: DataCache {
         }
         return keys
     }
-    
+
     /// A node for our DataCache
     public class Node {
         fileprivate var key: String
         fileprivate var value: Data
         fileprivate var previous: Node?
         fileprivate var next: Node?
-        
+
         /// An initializer for Node
         /// - Parameters:
         ///   - key: A string identifier
@@ -183,7 +183,7 @@ public actor DefaultDataCache: DataCache {
             self.value = value
         }
     }
-    
+
     /// A Codable representation of our DataCache
     /// This is used for writing to disk.
     private struct DiskCache: Codable {

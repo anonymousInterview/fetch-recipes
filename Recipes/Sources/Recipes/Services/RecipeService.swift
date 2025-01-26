@@ -4,14 +4,14 @@
 //
 //
 
-import Networking
 import Foundation
+import Networking
 
-struct RecipeService {
+enum RecipeService {
     struct RecipeResponse: Decodable {
         let recipes: [Recipe]
     }
-    
+
     static func fetchRecipes(client: HTTPClient) async throws -> [Recipe] {
         guard let url = URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes.json") else {
             throw URLError(.badURL)

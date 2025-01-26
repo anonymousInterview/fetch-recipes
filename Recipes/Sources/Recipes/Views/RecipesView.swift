@@ -4,8 +4,8 @@
 //
 //
 
-import SwiftUI
 import Networking
+import SwiftUI
 
 /// A view that displays a list of Recipes.
 public struct RecipesView: View {
@@ -14,18 +14,18 @@ public struct RecipesView: View {
         case loaded([Recipe])
         case error
     }
-    
+
     let imageLoader: ImageLoader
     @ObservedObject private var viewModel: RecipesViewModel
     @State var state: ViewState = .loading
-    
+
     public var body: some View {
         NavigationStack {
             List {
                 switch state {
                 case .loading:
                     loadingView
-                case .loaded(let recipes):
+                case let .loaded(recipes):
                     if !recipes.isEmpty {
                         ForEach(recipes) { recipe in
                             recipeView(recipe: recipe)
@@ -47,17 +47,17 @@ public struct RecipesView: View {
             await fetchRecipes()
         }
     }
-    
+
     var loadingView: some View {
         ProgressView()
             .frame(maxWidth: .infinity)
     }
-    
+
     var errorView: some View {
         Text("⚠️ Error, please try again. ⚠️ ")
             .frame(maxWidth: .infinity)
     }
-    
+
     func fetchRecipes() async {
         state = .loading
         do {
@@ -67,7 +67,7 @@ public struct RecipesView: View {
             state = .error
         }
     }
-    
+
     @ViewBuilder
     func recipeView(recipe: Recipe) -> some View {
         HStack(alignment: .top, spacing: 12) {
@@ -90,7 +90,7 @@ public struct RecipesView: View {
         }
         .buttonStyle(PlainButtonStyle()) // Prevent cell from swallowing tap gestures
     }
-    
+
     func actionButtons(sourceUrl: URL?, youtubeUrl: URL?) -> some View {
         HStack(alignment: .center) {
             if let sourceUrl {
@@ -117,7 +117,7 @@ public struct RecipesView: View {
             }
         }
     }
-    
+
     public init(viewModel: RecipesViewModel, imageLoader: ImageLoader) {
         self.viewModel = viewModel
         self.imageLoader = imageLoader

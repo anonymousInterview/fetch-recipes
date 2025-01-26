@@ -4,10 +4,10 @@
 //
 //
 
-import Testing
 @testable import FetchRecipes
 @testable import Networking
 @testable import Recipes
+import Testing
 
 @Suite struct FetchRecipesTests {
     /// This is an additional layer meant as a safeguard to put a layer of friction

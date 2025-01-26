@@ -5,8 +5,8 @@
 //
 
 import Foundation
-import UIKit
 import OSLog
+import UIKit
 
 public protocol ImageLoader: Sendable {
     func retrieveImage(for url: URL) async throws -> UIImage
@@ -15,12 +15,12 @@ public protocol ImageLoader: Sendable {
 public final class DefaultImageLoader: ImageLoader {
     private let cache: DataCache
     private let client: HTTPClient
-    
+
     public init(cache: DataCache, client: HTTPClient) {
         self.cache = cache
         self.client = client
     }
-    
+
     /// An image retrieval function
     /// - Parameter url: a given image URL
     /// - Returns: A UIImage
@@ -31,20 +31,20 @@ public final class DefaultImageLoader: ImageLoader {
             Logger.networking.debug("Hit cache for image")
             return image
         }
-        
+
         // If no cache hit, download from network
         // Since we look for the cache first, we avoid taking advantage of
         // the URLSession's default http caching.
         let (data, response) = try await client.data(from: url)
-        
+
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)
         }
-        
+
         guard let image = UIImage(data: data) else {
             throw URLError(.cannotDecodeContentData)
         }
-        
+
         // Save to cache
         await cache.set(data, forKey: cacheKey)
         Logger.networking.debug("Cache miss, fetched image from network")

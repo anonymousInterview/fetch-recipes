@@ -4,8 +4,8 @@
 //
 //
 
-import SwiftUI
 import OSLog
+import SwiftUI
 
 /// A view that can retrieve images asynchronously
 public struct AsynchronousImage: View {
@@ -13,7 +13,7 @@ public struct AsynchronousImage: View {
     private let url: URL?
     private let placeholder: Image
     @State private var image: UIImage? = nil
-    
+
     public var body: some View {
         HStack {
             Group {
@@ -33,7 +33,7 @@ public struct AsynchronousImage: View {
             }
         }
     }
-    
+
     public func fetchImage(url: URL) async {
         do {
             image = try await imageLoader.retrieveImage(for: url)
@@ -41,7 +41,7 @@ public struct AsynchronousImage: View {
             Logger.networking.error("Failed to retrieve image for: \(url). Error: \(error.localizedDescription)")
         }
     }
-    
+
     /// An initializer for `AsynchronousImage`
     /// - Parameters:
     ///   - url: The URL for the given image. It is optional to facilitate using this component.

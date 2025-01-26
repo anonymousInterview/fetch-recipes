@@ -10,7 +10,8 @@ let package = Package(
         // Products define the executables and libraries a package produces, making them visible to other packages.
         .library(
             name: "Recipes",
-            targets: ["Recipes"]),
+            targets: ["Recipes"]
+        ),
     ],
     dependencies: [.package(path: "./Networking")],
     targets: [

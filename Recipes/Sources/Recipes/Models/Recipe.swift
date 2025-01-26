@@ -4,9 +4,9 @@
 //
 //
 
-import OSLog
 import Foundation
 import Networking
+import OSLog
 
 /// A model representation of Recipe
 public struct Recipe: Decodable, Identifiable, Sendable {
@@ -17,12 +17,12 @@ public struct Recipe: Decodable, Identifiable, Sendable {
     let photoUrlSmall: URL?
     let sourceUrl: URL?
     let youtubeUrl: URL?
-    
+
     /// A computed property that `Recipe` to conform to Identifiable
     public var id: String {
         uuid
     }
-    
+
     public enum Cuisine: String, Decodable, Equatable, Sendable {
         case american
         case british
@@ -37,12 +37,12 @@ public struct Recipe: Decodable, Identifiable, Sendable {
         case tunisian
         case russian
         case other
-        
+
         /// Human readable transformation
         var displayName: String {
             rawValue.capitalized
         }
-        
+
         /// This custom decoder allows us to defend the client from backend changes that it
         /// cannot handle. You could also make the case that if you can't enumerate all the values
         /// you may as well not have an enum. I find that the benefits of being able to strongly type strings
@@ -58,6 +58,5 @@ public struct Recipe: Decodable, Identifiable, Sendable {
                 self = .other
             }
         }
-        
     }
 }
