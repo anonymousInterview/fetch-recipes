@@ -22,37 +22,32 @@ public actor DataCache {
     
     /// Our key:value store of nodes where key is
     private var cache: [String: Node] = [:]
-
+    
     private let diskCacheFilePath: URL?
+    
+    lazy var writeToDiskDebouncer: Debouncer = Debouncer(duration: .seconds(2)) {
+        self.saveDiskCacheToFile()
+    }
     
     public init(capacity: Int = 200) {
         self.capacity = capacity
         // Determine file path for the disk cache
         if let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
-            diskCacheFilePath = cacheDirectory.appendingPathComponent("dataCache.json")
+            diskCacheFilePath = cacheDirectory.appendingPathComponent("dataCache")
         } else {
             // If we can't find a path to write to, we won't write to disk
             diskCacheFilePath = nil
         }
         
-        // Load disk cache from file
-        guard let diskCacheFilePath else { return }
-        do {
-            let data = try Data(contentsOf: diskCacheFilePath)
-            let decodedCache = try JSONDecoder().decode([String: Data].self, from: data)
-            Task {
-                for (key, value) in decodedCache {
-                    await setData(value, forKey: key)
-                }
-            }
-        } catch {
-            Logger.networking.debug("Failed to load cache from disk: \(error.localizedDescription)")
+        Task {
+            await loadCacheFromDisk()
         }
     }
     
     public func data(for key: String) -> Data? {
         if let node = cache[key] {
             moveToHead(node)
+            writeToDiskDebouncer.emit()
             return node.value
         } else {
             return nil
@@ -87,10 +82,8 @@ public actor DataCache {
             tail?.next = nil
             count -= 1
         }
-        
-        // After every write, save to disk
-        // TODO: This is inefficient, we should batch writes on a given cadence.
-        saveDiskCacheToFile()
+        // Update disk with new model
+        writeToDiskDebouncer.emit()
     }
     
     /// Updates the pointres of an existing node based off its current position
@@ -119,16 +112,44 @@ public actor DataCache {
         if let diskCacheFilePath {
             do {
                 let serializedCache = cache.mapValues { $0.value }
-                let encodedData = try JSONEncoder().encode(serializedCache)
+                let orderedKeys = getKeysInOrder()
+                let diskCache = DiskCache(cache: serializedCache, orderedKeys: orderedKeys)
+                let encodedData = try JSONEncoder().encode(diskCache)
                 try encodedData.write(to: diskCacheFilePath, options: .atomic)
+                Logger.networking.debug("Wrote to disk.")
             } catch {
                 Logger.networking.error("\(error.localizedDescription)")
             }
         }
     }
     
+    private func loadCacheFromDisk() {
+        guard let diskCacheFilePath else { return }
+        do {
+            let data = try Data(contentsOf: diskCacheFilePath)
+            let decodedCache = try JSONDecoder().decode(DiskCache.self, from: data)
+            for key in decodedCache.orderedKeys {
+                if let value = decodedCache.cache[key] {
+                    setData(value, forKey: key)
+                }
+            }
+        } catch {
+            Logger.networking.debug("Failed to load cache from disk: \(error.localizedDescription)")
+        }
+    }
+    
+    private func getKeysInOrder() -> [String] {
+        var keys: [String] = []
+        var current = head
+        while let node = current {
+            keys.append(node.key)
+            current = node.next
+        }
+        return keys
+    }
+    
     /// A node for our DataCache
-    class Node: Codable {
+    class Node {
         fileprivate var key: String
         fileprivate var value: Data
         fileprivate var previous: Node?
@@ -143,6 +164,9 @@ public actor DataCache {
             self.value = value
         }
     }
+    
+    private struct DiskCache: Codable {
+        let cache: [String: Data]
+        let orderedKeys: [String]
+    }
 }
-
-

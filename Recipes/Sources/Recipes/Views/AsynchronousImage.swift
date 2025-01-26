@@ -7,26 +7,25 @@
 import SwiftUI
 import Networking
 
-struct AsynchronousImage: View {
-    let imageLoader: ImageLoader
-    let url: URL?
+public struct AsynchronousImage: View {
+    private let imageLoader: ImageLoader
+    private let url: URL?
+    private let placeholder: Image
     @State private var image: UIImage? = nil
     
-    var body: some View {
+    public var body: some View {
         HStack {
-            if let image = image {
-                Image(uiImage: image)
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200, height: 200)
-            } else {
-                Image(systemName: "fork.knife")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 200, height: 200)
-                    .foregroundStyle(.gray)
+            Group {
+                if let image = image {
+                    Image(uiImage: image)
+                        .resizable()
+                } else {
+                    Image(systemName: "fork.knife")
+                        .resizable()
+                }
             }
-            Spacer()
+            .scaledToFit()
+            .frame(width: 200, height: 200)
         }
         .padding(.vertical, 4)
         .task {
@@ -36,7 +35,7 @@ struct AsynchronousImage: View {
         }
     }
     
-    func fetchImage(url: URL) async {
+    public func fetchImage(url: URL) async {
         do {
             image = try await imageLoader.retrieveImage(for: url)
         } catch {
@@ -44,8 +43,9 @@ struct AsynchronousImage: View {
         }
     }
     
-    public init(url: URL?, imageLoader: ImageLoader) {
+    public init(url: URL?, imageLoader: ImageLoader, placeholder: Image) {
         self.url = url
         self.imageLoader = imageLoader
+        self.placeholder = placeholder
     }
 }

@@ -8,27 +8,77 @@ import SwiftUI
 import Networking
 
 public struct RecipesView: View {
+    enum ViewState {
+        case loading
+        case loaded([Recipe])
+        case error
+    }
+    
     let imageLoader: ImageLoader
     @ObservedObject private var viewModel: RecipesViewModel
+    @State var state: ViewState = .loading
     
     public var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.recipes) { recipe in
-                    VStack(alignment: .leading) {
-                        Text(recipe.name).font(.headline)
-                        Text(recipe.displayCuisine).font(.subheadline)
-                        actionButtons(sourceUrl: recipe.sourceUrl, youtubeUrl: recipe.youtubeUrl)
-                        AsynchronousImage(url: recipe.photoUrlSmall, imageLoader: imageLoader)
-                            .accessibilityHidden(true)
+                switch state {
+                case .loading:
+                    loadingView
+                case .loaded(let recipes):
+                    ForEach(recipes) { recipe in
+                        recipeView(recipe: recipe)
                     }
-                    .buttonStyle(PlainButtonStyle())
+                case .error:
+                    errorView
                 }
-            }.task {
-                await viewModel.fetchRecipes()
+            }
+            .refreshable {
+                await fetchRecipes()
             }
             .navigationTitle("Recipes")
         }
+        .task {
+            await fetchRecipes()
+        }
+    }
+    
+    var loadingView: some View {
+        ProgressView()
+            .frame(maxWidth: .infinity)
+    }
+    
+    var errorView: some View {
+        Text("⚠️ Error, please try again. ⚠️ ")
+            .frame(maxWidth: .infinity)
+    }
+    
+    func fetchRecipes() async {
+        state = .loading
+        do {
+            try await viewModel.fetchRecipes()
+            state = .loaded(viewModel.recipes)
+        } catch {
+            state = .error
+        }
+    }
+    
+    @ViewBuilder
+    func recipeView(recipe: Recipe) -> some View {
+        VStack(alignment: .leading) {
+            Text(recipe.name)
+                .font(.headline)
+            Text(recipe.displayCuisine)
+                .font(.subheadline)
+            actionButtons(sourceUrl: recipe.sourceUrl, youtubeUrl: recipe.youtubeUrl)
+            AsynchronousImage(
+                url: recipe.photoUrlSmall,
+                imageLoader: imageLoader,
+                placeholder: Image(systemName: "fork.knife")
+            )
+            .accessibilityHidden(true) // Since we don't have alt text,
+                                       // hiding images from screen readers.
+        }
+        .buttonStyle(PlainButtonStyle()) // Prevent cell from swallowing tap gestures
     }
     
     func actionButtons(sourceUrl: URL?, youtubeUrl: URL?) -> some View {

@@ -21,7 +21,14 @@ public final class DefaultHTTPClient: HTTPClient {
         do {
             var urlRequest = URLRequest(url: url)
             urlRequest.addValue("application/json", forHTTPHeaderField: "accept")
-            let (data, response) = try await URLSession.shared.data(for: urlRequest)
+            
+            // For this exercise, let's disable URL caching.
+            let configuration = URLSessionConfiguration.default
+            configuration.requestCachePolicy = .reloadIgnoringLocalCacheData
+            configuration.urlCache = nil
+
+            let session = URLSession(configuration: configuration)
+            let (data, response) = try await session.data(for: urlRequest)
             if
                 let httpUrlResponse = response as? HTTPURLResponse,
                 httpUrlResponse.statusCode == 200 {
