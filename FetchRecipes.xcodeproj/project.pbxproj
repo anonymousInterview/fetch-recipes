@@ -25,7 +25,7 @@
 
 /* Begin PBXFileReference section */
 		552991112D4156B000DCC19F /* FetchRecipes.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FetchRecipes.xctestplan; sourceTree = "<group>"; };
-		552991132D41B84E00DCC19F /* README.MD */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.MD; sourceTree = "<group>"; };
+		552991132D41B84E00DCC19F /* README.MD */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.MD; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.markdown; };
 		5594882C2D45F783002E1EB6 /* FetchRecipesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FetchRecipesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		55CE39AD2D414FFE003A0FFA /* FetchRecipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FetchRecipes.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		55CE39ED2D415651003A0FFA /* Networking */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = Networking; sourceTree = "<group>"; };
