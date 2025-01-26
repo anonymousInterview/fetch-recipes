@@ -26,7 +26,6 @@ public struct AsynchronousImage: View {
                 }
             }
             .scaledToFit()
-            .frame(width: 200, height: 200)
         }
         .task {
             if let url {

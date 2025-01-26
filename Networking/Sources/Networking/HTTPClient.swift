@@ -28,7 +28,6 @@ public final class DefaultHTTPClient: HTTPClient {
             httpUrlResponse.statusCode == 200 {
             return data
         } else {
-            // TODO: Improve error handling, unknown is vague
             throw URLError(.badServerResponse)
         }
     }

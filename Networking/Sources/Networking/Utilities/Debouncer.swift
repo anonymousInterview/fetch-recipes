@@ -4,6 +4,7 @@
 //
 //
 
+/// A simple implementation of a Debouncer
 final class Debouncer {
     private let block: @Sendable () async -> Void
     private let duration: ContinuousClock.Duration

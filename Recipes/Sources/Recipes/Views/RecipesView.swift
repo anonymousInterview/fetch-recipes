@@ -70,19 +70,23 @@ public struct RecipesView: View {
     
     @ViewBuilder
     func recipeView(recipe: Recipe) -> some View {
-        VStack(alignment: .leading) {
-            Text(recipe.name)
-                .font(.headline)
-            Text(recipe.cuisine.displayName)
-                .font(.subheadline)
-            actionButtons(sourceUrl: recipe.sourceUrl, youtubeUrl: recipe.youtubeUrl)
+        HStack(alignment: .top, spacing: 12) {
             AsynchronousImage(
                 url: recipe.photoUrlSmall,
                 imageLoader: imageLoader,
                 placeholder: Image(systemName: "fork.knife")
             )
-            .accessibilityHidden(true) // Since we don't have alt text,
-                                       // hiding images from screen readers.
+            .clipShape(RoundedRectangle(cornerSize: CGSize(width: 4, height: 4)))
+            .frame(width: 80, height: 80)
+            // Since we don't have alt text, hiding images from screen readers.
+            .accessibilityHidden(true)
+            VStack(alignment: .leading) {
+                Text(recipe.name)
+                    .font(.headline)
+                Text(recipe.cuisine.displayName)
+                    .font(.subheadline)
+                actionButtons(sourceUrl: recipe.sourceUrl, youtubeUrl: recipe.youtubeUrl)
+            }
         }
         .buttonStyle(PlainButtonStyle()) // Prevent cell from swallowing tap gestures
     }
@@ -96,7 +100,7 @@ public struct RecipesView: View {
                     Image(systemName: "list.dash")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 44, height: 44)
                 }
                 .accessibilityLabel("Open Recipe in Browser")
             }
@@ -107,7 +111,7 @@ public struct RecipesView: View {
                     Image(systemName: "video")
                         .resizable()
                         .scaledToFit()
-                        .frame(width: 40, height: 40)
+                        .frame(width: 44, height: 44)
                 }
                 .accessibilityLabel("View Recipe on Youtube")
             }

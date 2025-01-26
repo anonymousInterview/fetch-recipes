@@ -10,7 +10,7 @@ import Testing
 @testable import Recipes
 
 @Suite struct FetchRecipesTests {
-    /// This is an additional layer meant as a safeguard to put a bit of friction
+    /// This is an additional layer meant as a safeguard to put a layer of friction
     /// when updating root dependencies.
     @Test func checkBaselineDependencies() throws {
         let view = FetchRecipesApp()
