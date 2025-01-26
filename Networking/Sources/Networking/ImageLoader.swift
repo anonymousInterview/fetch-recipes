@@ -8,15 +8,18 @@ import Foundation
 import UIKit
 import OSLog
 
-public final class ImageLoader: Sendable {
+public protocol ImageLoader: Sendable {
+    func retrieveImage(for url: URL) async throws -> UIImage
+}
+
+public final class DefaultImageLoader: ImageLoader {
     private let cache: DataCache
     
-    // TODO: Make a protocol
     public init(cache: DataCache = DataCache()) {
         self.cache = cache
     }
     
-    /// An image retreival function
+    /// An image retrieval function
     /// - Parameter url: a given image URL
     /// - Returns: A UIImage
     public func retrieveImage(for url: URL) async throws -> UIImage {
@@ -39,7 +42,7 @@ public final class ImageLoader: Sendable {
         }
         
         // Save to cache
-        await cache.setData(data, forKey: cacheKey)
+        await cache.set(data, forKey: cacheKey)
         Logger.networking.debug("Cache miss, fetched image from network")
         return image
     }

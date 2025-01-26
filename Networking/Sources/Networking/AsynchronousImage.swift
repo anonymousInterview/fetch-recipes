@@ -7,6 +7,7 @@
 import SwiftUI
 import OSLog
 
+/// A view that can retrieve images asynchronously
 public struct AsynchronousImage: View {
     private let imageLoader: ImageLoader
     private let url: URL?
@@ -42,6 +43,11 @@ public struct AsynchronousImage: View {
         }
     }
     
+    /// An initializer for `AsynchronousImage`
+    /// - Parameters:
+    ///   - url: The URL for the given image. It is optional to facilitate using this component.
+    ///   - imageLoader: An ImageLoader that allows this view to retrieve images.
+    ///   - placeholder: A placeholder image.
     public init(url: URL?, imageLoader: ImageLoader, placeholder: Image) {
         self.url = url
         self.imageLoader = imageLoader

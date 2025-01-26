@@ -7,6 +7,7 @@
 import SwiftUI
 import Networking
 
+/// A view that displays a list of Recipes.
 public struct RecipesView: View {
     enum ViewState {
         case loading
@@ -25,8 +26,13 @@ public struct RecipesView: View {
                 case .loading:
                     loadingView
                 case .loaded(let recipes):
-                    ForEach(recipes) { recipe in
-                        recipeView(recipe: recipe)
+                    if !recipes.isEmpty {
+                        ForEach(recipes) { recipe in
+                            recipeView(recipe: recipe)
+                        }
+                    } else {
+                        Text("Nothing to see here folks.")
+                            .frame(maxWidth: .infinity)
                     }
                 case .error:
                     errorView
@@ -67,7 +73,7 @@ public struct RecipesView: View {
         VStack(alignment: .leading) {
             Text(recipe.name)
                 .font(.headline)
-            Text(recipe.displayCuisine)
+            Text(recipe.cuisine.displayName)
                 .font(.subheadline)
             actionButtons(sourceUrl: recipe.sourceUrl, youtubeUrl: recipe.youtubeUrl)
             AsynchronousImage(
@@ -83,25 +89,28 @@ public struct RecipesView: View {
     
     func actionButtons(sourceUrl: URL?, youtubeUrl: URL?) -> some View {
         HStack(alignment: .center) {
-            Button {
-                UIApplication.shared.open(sourceUrl!)
-            } label: {
-                Image(systemName: "list.dash")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
+            if let sourceUrl {
+                Button {
+                    UIApplication.shared.open(sourceUrl)
+                } label: {
+                    Image(systemName: "list.dash")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                }
+                .accessibilityLabel("Open Recipe in Browser")
             }
-            .accessibilityLabel("Open Recipe in Browser")
-            
-            Button {
-                UIApplication.shared.open(youtubeUrl!)
-            } label: {
-                Image(systemName: "video")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
+            if let youtubeUrl {
+                Button {
+                    UIApplication.shared.open(youtubeUrl)
+                } label: {
+                    Image(systemName: "video")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 40, height: 40)
+                }
+                .accessibilityLabel("View Recipe on Youtube")
             }
-            .accessibilityLabel("View Recipe on Youtube")
         }
     }
     

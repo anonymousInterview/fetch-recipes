@@ -23,7 +23,8 @@ public actor DataCache {
     /// Our key:value store of nodes where key is
     private var cache: [String: Node] = [:]
     
-    private let diskCacheFilePath: URL?
+    private let diskCacheFileURL: URL?
+    static let diskCacheFilePath = "dataCache"
     
     lazy var writeToDiskDebouncer: Debouncer = Debouncer(duration: .seconds(2)) {
         self.saveDiskCacheToFile()
@@ -33,10 +34,10 @@ public actor DataCache {
         self.capacity = capacity
         // Determine file path for the disk cache
         if let cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first {
-            diskCacheFilePath = cacheDirectory.appendingPathComponent("dataCache")
+            diskCacheFileURL = cacheDirectory.appendingPathComponent(Self.diskCacheFilePath)
         } else {
             // If we can't find a path to write to, we won't write to disk
-            diskCacheFilePath = nil
+            diskCacheFileURL = nil
         }
         
         Task {
@@ -54,7 +55,11 @@ public actor DataCache {
         }
     }
     
-    public func setData(_ data: Data, forKey key: String) {
+    /// Set
+    /// - Parameters:
+    ///   - data: <#data description#>
+    ///   - key: <#key description#>
+    public func set(_ data: Data, forKey key: String) {
         // If we get a hit, move current node to head
         if let node = cache[key] {
             node.value = data
@@ -77,7 +82,10 @@ public actor DataCache {
         
         // If we have hit capacity, purge last node
         if count > capacity {
-            cache.removeValue(forKey: tail!.key)
+            if let tail {
+                cache.removeValue(forKey: tail.key)
+            }
+            
             tail = tail?.previous
             tail?.next = nil
             count -= 1
@@ -86,7 +94,7 @@ public actor DataCache {
         writeToDiskDebouncer.emit()
     }
     
-    /// Updates the pointres of an existing node based off its current position
+    /// Updates the pointers of an existing node based off its current position
     func moveToHead(_ node: Node) {
         // If the current node is already at the head: noop
         // Otherwise, update pointers to make current node head
@@ -108,14 +116,14 @@ public actor DataCache {
     }
     
     /// Takes our in-memory cache and saves to disk to persist across app launches
-    private func saveDiskCacheToFile() {
-        if let diskCacheFilePath {
+    func saveDiskCacheToFile() {
+        if let diskCacheFileURL {
             do {
                 let serializedCache = cache.mapValues { $0.value }
-                let orderedKeys = getKeysInOrder()
+                let orderedKeys = getOrderedKeys()
                 let diskCache = DiskCache(cache: serializedCache, orderedKeys: orderedKeys)
                 let encodedData = try JSONEncoder().encode(diskCache)
-                try encodedData.write(to: diskCacheFilePath, options: .atomic)
+                try encodedData.write(to: diskCacheFileURL, options: .atomic)
                 Logger.networking.debug("Wrote to disk.")
             } catch {
                 Logger.networking.error("\(error.localizedDescription)")
@@ -123,14 +131,15 @@ public actor DataCache {
         }
     }
     
-    private func loadCacheFromDisk() {
-        guard let diskCacheFilePath else { return }
+    /// Retrieve cache from disk and load values into memory
+    func loadCacheFromDisk() {
+        guard let diskCacheFileURL else { return }
         do {
-            let data = try Data(contentsOf: diskCacheFilePath)
+            let data = try Data(contentsOf: diskCacheFileURL)
             let decodedCache = try JSONDecoder().decode(DiskCache.self, from: data)
-            for key in decodedCache.orderedKeys {
-                if let value = decodedCache.cache[key] {
-                    setData(value, forKey: key)
+            for key in decodedCache.orderedKeys.reversed() {
+                if let data = decodedCache.cache[key] {
+                    set(data, forKey: key)
                 }
             }
         } catch {
@@ -138,7 +147,9 @@ public actor DataCache {
         }
     }
     
-    private func getKeysInOrder() -> [String] {
+    /// Iterates through our doubly linked list to return the order of our keys
+    /// - Returns: A string array of ordered keys
+    func getOrderedKeys() -> [String] {
         var keys: [String] = []
         var current = head
         while let node = current {
@@ -165,6 +176,8 @@ public actor DataCache {
         }
     }
     
+    /// A Codable representation of our DataCache
+    /// This is used for writing to disk.
     private struct DiskCache: Codable {
         let cache: [String: Data]
         let orderedKeys: [String]

@@ -8,6 +8,7 @@ import OSLog
 import Foundation
 import Networking
 
+/// A model representation of Recipe
 public struct Recipe: Decodable, Identifiable, Sendable {
     let uuid: String
     let name: String
@@ -37,6 +38,11 @@ public struct Recipe: Decodable, Identifiable, Sendable {
         case russian
         case other
         
+        /// Human readable transformation
+        var displayName: String {
+            rawValue.capitalized
+        }
+        
         /// This custom decoder allows us to defend the client from backend changes that it
         /// cannot handle. You could also make the case that if you can't enumerate all the values
         /// you may as well not have an enum. I find that the benefits of being able to strongly type strings
@@ -53,11 +59,5 @@ public struct Recipe: Decodable, Identifiable, Sendable {
             }
         }
         
-    }
-}
-
-extension Recipe {
-    var displayCuisine: String {
-        cuisine.rawValue.capitalized
     }
 }

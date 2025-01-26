@@ -10,8 +10,7 @@ import Recipes
 
 @main
 struct FetchRecipesApp: App {
-    let dataCache: DataCache = DataCache()
-    let client: HTTPClient = DefaultHTTPClient()
+    let client: HTTPClient
     let imageLoader: ImageLoader
     let viewModel: RecipesViewModel
     
@@ -21,8 +20,10 @@ struct FetchRecipesApp: App {
         }
     }
     
+    /// App Conformance
     init() {
-        self.imageLoader = ImageLoader(cache: dataCache)
+        self.client = DefaultHTTPClient()
+        self.imageLoader = DefaultImageLoader(cache: DataCache())
         self.viewModel = RecipesViewModel(httpClient: client)
     }
 }

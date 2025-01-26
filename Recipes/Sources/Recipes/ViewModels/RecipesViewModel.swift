@@ -7,6 +7,7 @@
 import SwiftUI
 import Networking
 
+/// A viewModel for `RecipesView`
 @MainActor
 public class RecipesViewModel: ObservableObject {
     let httpClient: HTTPClient
@@ -18,12 +19,13 @@ public class RecipesViewModel: ObservableObject {
     // more appropriate.
     @Published var recipes: [Recipe] = []
     
+    /// An initializer for `RecipesViewModel`
+    /// - Parameter httpClient: Requires an implementation of `HTTPClient`
     public init(httpClient: HTTPClient) {
         self.httpClient = httpClient
     }
     
     func fetchRecipes() async throws {
-        let recipes = try await RecipeService.fetchRecipes(client: httpClient)
-        self.recipes = recipes
+        self.recipes = try await RecipeService.fetchRecipes(client: httpClient)
     }
 }

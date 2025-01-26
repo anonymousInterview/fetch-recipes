@@ -40,7 +40,7 @@
             parallelizable = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "55CE39BC2D414FFF003A0FFA"
+               BlueprintIdentifier = "5594881E2D45F1A3002E1EB6"
                BuildableName = "FetchRecipesTests.xctest"
                BlueprintName = "FetchRecipesTests"
                ReferencedContainer = "container:FetchRecipes.xcodeproj">

@@ -9,7 +9,7 @@ import Foundation
 @testable import Recipes
 @testable import Networking
 
-@Suite struct RecipeServiceTests {
+struct RecipeServiceTests {
     static let validResponse = """
     {
         "recipes": [

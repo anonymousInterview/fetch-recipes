@@ -18,24 +18,23 @@
   "testTargets" : [
     {
       "target" : {
-        "containerPath" : "container:Networking",
-        "identifier" : "NetworkingTests",
-        "name" : "NetworkingTests"
+        "containerPath" : "container:Recipes",
+        "identifier" : "RecipesTests",
+        "name" : "RecipesTests"
       }
     },
     {
-      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:FetchRecipes.xcodeproj",
-        "identifier" : "55CE39BC2D414FFF003A0FFA",
+        "identifier" : "5594882B2D45F783002E1EB6",
         "name" : "FetchRecipesTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:Recipes",
-        "identifier" : "RecipesTests",
-        "name" : "RecipesTests"
+        "containerPath" : "container:Networking",
+        "identifier" : "NetworkingTests",
+        "name" : "NetworkingTests"
       }
     }
   ],
