@@ -13,9 +13,6 @@ public protocol ImageLoader: Sendable {
 }
 
 public final class DefaultImageLoader: ImageLoader {
-    // TODO: update screenshots
-    // TODO: write tests for this
-    // TODO: FInish up readme
     private let cache: DataCache
     private let client: HTTPClient
     

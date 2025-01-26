@@ -30,6 +30,10 @@ struct RecipeServiceTests {
         func get(url: URL) async throws -> Data {
             return validResponse.data(using: .utf8)!
         }
+        
+        func data(from: URL) async throws -> (Data, URLResponse) {
+            return (Data(), URLResponse())
+        }
     }
     
     @Test func canDecodeSuccessfully() async throws {
