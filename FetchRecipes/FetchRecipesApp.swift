@@ -23,7 +23,7 @@ struct FetchRecipesApp: App {
     /// App Conformance
     init() {
         self.client = DefaultHTTPClient()
-        self.imageLoader = DefaultImageLoader(cache: DataCache())
+        self.imageLoader = DefaultImageLoader(cache: DefaultDataCache())
         self.viewModel = RecipesViewModel(httpClient: client)
     }
 }

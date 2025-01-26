@@ -1,6 +1,6 @@
 ### Summary: Include screen shots or a video of your app highlighting its features
  
-| Dynamic Type | Refresh | Error State | Empty Example|
+| Dynamic Type | Pull to Refresh | Error State | Empty State |
 |-|-|-|-|
 |![Dynamic Type](/screenshots/dynamic_type.png "Dynamic Type")|![Refresh](/screenshots/refresh.png "Refresh")|![Error](/screenshots/error.png "Error")|![Empty](/screenshots/empty.png "Empty")|
 

@@ -8,8 +8,13 @@ import Foundation
 import SwiftUI
 import OSLog
 
+public protocol DataCache: Actor {
+    func data(for key: String) -> Data?
+    func set(_ data: Data, forKey key: String)
+}
+
 /// An Least Recently Used (LRU) data cache that supports both in-memory and on disk retrievals
-public actor DataCache {
+public actor DefaultDataCache: DataCache {
     /// How many items are currently in our cache
     private var count: Int = 0
     
@@ -45,6 +50,9 @@ public actor DataCache {
         }
     }
     
+    /// Retrieve a value
+    /// - Parameter key: The identifier for the data
+    /// - Returns: Data if it exists in the cache
     public func data(for key: String) -> Data? {
         if let node = cache[key] {
             moveToHead(node)
@@ -55,10 +63,10 @@ public actor DataCache {
         }
     }
     
-    /// Set
+    /// Cache a value
     /// - Parameters:
-    ///   - data: <#data description#>
-    ///   - key: <#key description#>
+    ///   - data: The data to be cached
+    ///   - key: The data's identifier
     public func set(_ data: Data, forKey key: String) {
         // If we get a hit, move current node to head
         if let node = cache[key] {
@@ -160,7 +168,7 @@ public actor DataCache {
     }
     
     /// A node for our DataCache
-    class Node {
+    public class Node {
         fileprivate var key: String
         fileprivate var value: Data
         fileprivate var previous: Node?
@@ -170,7 +178,7 @@ public actor DataCache {
         /// - Parameters:
         ///   - key: A string identifier
         ///   - value: The associated data for a given key
-        init(key: String, value: Data) {
+        public init(key: String, value: Data) {
             self.key = key
             self.value = value
         }

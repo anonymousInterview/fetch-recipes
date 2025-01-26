@@ -15,7 +15,7 @@ public protocol ImageLoader: Sendable {
 public final class DefaultImageLoader: ImageLoader {
     private let cache: DataCache
     
-    public init(cache: DataCache = DataCache()) {
+    public init(cache: DataCache) {
         self.cache = cache
     }
     

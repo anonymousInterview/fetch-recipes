@@ -2,11 +2,11 @@ import Testing
 import Foundation
 @testable import Networking
 
-class DataCacheTests {
-    var dataCache: DataCache!
+class DefaultDataCacheTests {
+    var dataCache: DefaultDataCache!
     
     init() async throws {
-        dataCache = DataCache(capacity: 3)
+        dataCache = DefaultDataCache(capacity: 3)
     }
     
     deinit {
@@ -15,7 +15,7 @@ class DataCacheTests {
         // Clean up after ourselves to ensure test isolation.
         // Writing to disk ruins test isolation.
         var cacheDirectory = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first!
-        cacheDirectory = cacheDirectory.appendingPathComponent(DataCache.diskCacheFilePath)
+        cacheDirectory = cacheDirectory.appendingPathComponent(DefaultDataCache.diskCacheFilePath)
         if FileManager.default.fileExists(atPath: cacheDirectory.absoluteString) {
             try! FileManager.default.removeItem(at: cacheDirectory)
         }
@@ -103,7 +103,7 @@ class DataCacheTests {
         await dataCache.saveDiskCacheToFile()
         
         dataCache = nil
-        dataCache = DataCache()
+        dataCache = DefaultDataCache()
         await dataCache.loadCacheFromDisk()
         retrievedKey = await dataCache.getOrderedKeys()
         #expect(retrievedKey.first == "key3")
