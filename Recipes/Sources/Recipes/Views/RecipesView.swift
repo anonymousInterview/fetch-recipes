@@ -124,13 +124,14 @@ public struct RecipesView: View {
     }
 }
 
+#Preview("Loaded State") {
+    let mockHTTPClient = MockHTTPClient()
+    let viewModel = RecipesViewModel(httpClient: mockHTTPClient)
+    return RecipesView(viewModel: viewModel, imageLoader: MockImageLoader())
+}
 
-// TODO: Fix preview
-//#Preview {
-//    class MockHTTPClient: HTTPClient {}
-//    let mockHTTPClient = MockHTTPClient()
-//    
-//    Group {
-//        RecipesView(viewModel: RecipesViewModel(httpClient: mockHTTPClient))
-//    }
-//}
+#Preview("Error State") {
+    let mockHTTPClient = MockHTTPClient(customResponse: Data())
+    let viewModel = RecipesViewModel(httpClient: mockHTTPClient)
+    return RecipesView(viewModel: viewModel, imageLoader: MockImageLoader())
+}
