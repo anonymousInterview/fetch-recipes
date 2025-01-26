@@ -20,7 +20,7 @@ struct ReceipeIntegrationTests {
         #expect(recipeResponse.recipes.isEmpty)
     }
     
-    @Test func malformatedResponse() async throws {
+    @Test func malformedResponse() async throws {
         let client = DefaultHTTPClient()
         let responseData = try await client.get(url: URL(string: "https://d3jbb8n5wk0qxi.cloudfront.net/recipes-malformed.json")!)
         let decoder = JSONDecoder()

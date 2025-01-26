@@ -13,10 +13,15 @@ public protocol ImageLoader: Sendable {
 }
 
 public final class DefaultImageLoader: ImageLoader {
+    // TODO: update screenshots
+    // TODO: write tests for this
+    // TODO: FInish up readme
     private let cache: DataCache
+    private let client: HTTPClient
     
-    public init(cache: DataCache) {
+    public init(cache: DataCache, client: HTTPClient) {
         self.cache = cache
+        self.client = client
     }
     
     /// An image retrieval function
@@ -31,7 +36,9 @@ public final class DefaultImageLoader: ImageLoader {
         }
         
         // If no cache hit, download from network
-        let (data, response) = try await URLSession.shared.data(from: url)
+        // Since we look for the cache first, we avoid taking advantage of
+        // the URLSession's default http caching.
+        let (data, response) = try await client.data(from: url)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
             throw URLError(.badServerResponse)

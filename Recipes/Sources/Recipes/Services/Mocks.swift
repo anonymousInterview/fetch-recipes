@@ -8,6 +8,10 @@ import Networking
 import UIKit
 
 final class MockHTTPClient: HTTPClient {
+    func data(from: URL) async throws -> (Data, URLResponse) {
+        return (Data(), URLResponse())
+    }
+    
     let customResponse: Data?
     func get(url: URL) async throws -> Data {
         if let customResponse {
