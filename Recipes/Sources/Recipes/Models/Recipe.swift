@@ -38,14 +38,17 @@ public struct Recipe: Decodable, Identifiable, Sendable {
         case other
         
         /// This custom decoder allows us to defend the client from backend changes that it
-        /// cannot handle.
+        /// cannot handle. You could also make the case that if you can't enumerate all the values
+        /// you may as well not have an enum. I find that the benefits of being able to strongly type strings
+        /// brings enough developer value for the client to enumerate when possible... while also
+        /// protecting against potential breaking API changes.
         public init(from decoder: Decoder) throws {
             let container = try decoder.singleValueContainer()
             let value = try container.decode(String.self).lowercased()
             if let cuisine = Cuisine(rawValue: value) {
                 self = cuisine
             } else {
-                Logger().error("The client cannot decode the following value for cuisine: \(value).")
+                Logger.networking.error("The client cannot decode the following value for cuisine: \(value).")
                 self = .other
             }
         }
