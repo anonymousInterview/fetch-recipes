@@ -56,13 +56,31 @@ appropriately sized tap targets, and dark mode.
 
 I spent ~12 hours on this project.
 
-6: Image Caching
-2: UI
-3: Testing
-1: Documentation
+- 6: Image Caching
+- 2: UI
+- 3: Testing
+- 1: Documentation
 
 ### Trade-offs and Decisions: Did you make any significant trade-offs in your approach?
 
+When building the image caching solution, I prioritized minimizing network traffic.
+The quickest retrieval of an image happens when the image is already in-memory.
+That being said, the take-home requirement specified storing to disk. Additionally,
+if we want to persist images across app launches, we would need to persist to disk.
+
+This led me down the path of building a `DefaultDataCache` that relies on 
+its in-memory store for data retrieval. Using a key:value store for this 
+gave us constant (O(1)) retrieval time. With this implementation, a user
+can scroll through `RecipesView` and fetch images from network only once. Ah,
+but what about across app launches? Well now we need to maintain an on disk
+version of our in-memory cache up to date. On the initialization of 
+`DefaultDataCache`, we have a Task to load the existing cache from disk. Also, every
+time we update our in-memory cache, we request to update our disk cache. As a user
+scrolls through the recipe list though, we're making many updates to our in-memory
+cache. This would lead to many disk writes. To minimize disk writes, I built
+a simple debouncer to batch disk writes. By debouncing requests, I was able
+to significantly reduce amount of disk writes. If you build and run the application
+locally, you'll be able to see a log of cache hits and disk writes. 
 
 
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
