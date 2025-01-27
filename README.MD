@@ -72,21 +72,21 @@ its in-memory store for data retrieval. Using a key:value store for this
 gave us constant (O(1)) retrieval time. With this implementation, a user
 can scroll through `RecipesView` and fetch each image for a given Recipe 
 from network only once. Ah, but what about persisting across app launches?
-Let's talk about our disk store... 
 
 To persist across app launches, we need to store a version of our in-memory
 cache on-disk and keep it up to date. We start the on-disk caching process
 by updating our on-disk cache every time we update our in-memory cache. As 
-a user scrolls through the recipe list, we're updating our in-memory
-cache as well as the on-disk cache. This base strategy leads to many disk writes
+a user scrolls through the recipe list, we update both the in-memory
+cache as well as the on-disk cache. This strategy leads to many disk writes
 which can cause performance issues. In general, we'd like to minimize writes
-to disk. To do this, I built a simple debouncer to batch disk writes. By 
-debouncing requests, I was able to significantly reduce the amount of writes. If you
-build and run the application locally, you'll be able to see a log of cache hits
-and disk writes. You'll see that even though we are rapidly updating our in-memory
+to disk. To do this, I built a simple debouncer to batch disk writes. 
+This significantly reduced the amount of writes. If you build and run the
+application locally, you'll be able to see a log of cache hits and disk writes.
+You'll see that even though we are rapidly updating our in-memory
 cache, writing to disk is much more infrequent. Once the app is deallocated and
 the user boots up the app again, we load the existing on-disk cache back into 
-memory on the initialization of our cache (`DefaultDataCache`). 
+memory on initialization of our data store. In summary, this gives us 
+an efficient in-memory and on-disk caching implementation.
 
 ### Weakest Part of the Project: What do you think is the weakest part of your project?
 
