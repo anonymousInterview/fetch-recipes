@@ -12,11 +12,11 @@ import SwiftUI
 public class RecipesViewModel: ObservableObject {
     let httpClient: HTTPClient
 
-    // We're reading directly from the Recipe backend model
-    // instead of creating a viewModel. This was an intentional
-    // decision to minimize abstraction layers. If we needed
-    // to do more data transformations, a viewModel would be
-    // more appropriate.
+    /// We're reading directly from the Recipe backend model
+    /// instead of creating a viewModel. This was an intentional
+    /// decision to minimize abstraction layers. If we needed
+    /// to do more data transformations before displaying a Recipe,
+    /// a `RecipeViewModel` would be more appropriate.
     @Published var recipes: [Recipe] = []
 
     /// An initializer for `RecipesViewModel`
