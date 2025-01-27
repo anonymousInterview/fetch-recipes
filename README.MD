@@ -21,7 +21,7 @@ Modularization enforces separation of responsibilities. I've created two modules
 Recipes and Networking. The Recipes feature module holds domain knowledge 
 over everything recipe related. From services to views, it knows how to display
 a recipe list. The Recipe module depends on the foundational Networking module. 
-The networking module owns the networking layer. The includes caching and 
+The networking module owns the networking layer. This includes caching and 
 an HTTP Client. It also includes an asynchronous image loader accompanied with a view
 that implements the loader. The Recipe module is able to depend on the Networking
 module for all its networking needs, without knowing any implementation details.
@@ -96,4 +96,4 @@ NavigationStack.
 
 ### Additional Information: Is there anything else we should know? Feel free to share any insights or constraints you encountered.
 
-This was fun project. Thanks for the exercise!
+This was a fun project. Thanks for the exercise.
